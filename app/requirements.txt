@@ -1,0 +1,9 @@
+Flask==1.0.2
+Flask-Cors==3.0.7
+flask-marshmallow==0.10.0
+Flask-SQLAlchemy==2.3.2
+flask-swagger-ui==3.20.9
+psycopg2-binary==2.8.2
+python-jose==3.0.1
+marshmallow-sqlalchemy==0.16.2
+uWSGI==2.0.18

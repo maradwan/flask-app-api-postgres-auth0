@@ -1,0 +1,325 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "IoT App",
+    "version": "1.0.0",
+    "title": "API IoT App",
+    "contact": {
+      "email": "maradwan@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Raw Data Request",
+      "description": "Example API for requesting and return Raw Data requests"
+    }
+  ],
+  "paths": {
+    "/auth0/v1": {
+    "post": {
+        "tags": [
+          "auth0"
+        ],
+        "summary": "get new token ",
+        "requestBody": {
+          "description": "get new token",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth0"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/auth0"
+            }
+          },
+          "400": {
+            "description": "Failed. username or password incorrect."
+            
+          },
+          "404": {
+            "description": "Missing keys"
+         }
+        }  
+      }
+    },
+    "/data/v1": {
+      "get": {
+        "tags": [
+          "Raw Data Request"
+        ],
+        "summary": "Returns Raw Data Requests",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/Raw Data Request"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Raw Data Request"
+        ],
+        "summary": "Create a new Raw Data request system",
+        "requestBody": {
+          "description": "Raw Data Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Raw Data Request Post Body"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+            
+          },
+          "409": {
+            "description": "Failed. Already exists in the database"
+         }
+        }  
+      }
+    },
+    "/data/v1/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of the cat that we want to match",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Raw Data Request"
+        ],
+        "summary": "Get Raw Data request with given ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Raw Data Request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/Raw Data Request"
+            }
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "404": {
+            "description": "Failed. Raw Data request not found."
+          }
+        }
+      },
+      "put": {
+        "summary": "edit a Raw Data request by ID",
+        "tags": [
+          "Raw Data Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Raw Data Request id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Raw Data Request Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Raw Data Request"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/Raw Data Request"
+            }
+          },
+          "400": {
+            "description": "Failed. Bad post data."
+          },
+          "401": {
+            "description": "Failed. Request id is not UUID."
+          },
+          "404": {
+            "description": "Failed. Not Found."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Raw Data Request by ID",
+        "tags": [
+          "Raw Data Request"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Raw Data Request Id",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/id"
+            }
+          },
+          "400": {
+            "description": "Failed. Misunderstood Request."
+          },
+          "401": {
+            "description": "Failed. Request id is not UUID"
+          },
+          "404": {
+            "description": "Failed. Request not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "id": {
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "primary_key": "true",
+            "auto_increment": "true"
+          }
+        }
+      },
+      "auth0": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "format": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+      }
+    },
+      "Raw Data Request Post Body": {
+        "type": "object",
+        "properties": {
+          "eventtime": {
+            "type": "string",
+            "format": "string"
+          },
+          "devicename": {
+            "type": "string",
+            "format": "string"
+          },
+          "item": {
+            "type": "string",
+            "format": "string"
+          },
+          "detailstatus": {
+            "type": "string",
+            "format": "string"
+          },
+          "filename": {
+            "type": "string",
+            "format": "string"
+          },
+          "linenumber": {
+            "type": "integer",
+            "format": "number"
+          }
+        }
+      },
+      "Raw Data Request": {
+        "type": "object",
+        "properties": {
+          "eventtime": {
+            "type": "string",
+            "format": "string"
+          },
+          "devicename": {
+            "type": "string",
+            "format": "string"
+          },
+          "item": {
+            "type": "string",
+            "format": "string"
+          },
+          "detailstatus": {
+            "type": "string",
+            "format": "string"
+          },
+          "filename": {
+            "type": "string",
+            "format": "string"
+          },
+          "linenumber": {
+            "type": "integer",
+            "format": "number"
+          }
+
+      }
+     }
+   }
+  }
+}

@@ -22,7 +22,7 @@ Clone the repo
 
 ## Create extension for uuid
 
-    $ docker exec -it db bash -c PGPASSWORD=password psql -h 127.0.0.1 -U postgres -d data -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'
+    $ docker exec -it db bash -c PGPASSWORD=password psql -h 127.0.0.1 -U postgres -d data -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
 ## Create random data in database
 
